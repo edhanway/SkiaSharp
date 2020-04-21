@@ -469,35 +469,7 @@ stages:
                 New-Item '.\output\nugets\' -Type Directory -Force | Out-Null
                 Get-ChildItem '.\output\*.nupkg' | Move-Item -Destination '.\output\nugets\'
               displayName: Copy the *.nupkgs into the correct folder for the samples
-      - template: azure-templates-bootstrapper.yml # Build Samples (macOS)
-        parameters:
-          name: samples_macos
-          displayName: Build Samples (macOS)
-          vmImage: $(VM_IMAGE_MAC)
-          target: samples
-          shouldPublish: false
-          requiredArtifacts:
-            - nuget
-          preBuildSteps:
-            - task: InstallAppleCertificate@2
-              inputs:
-                certSecureFile: 'SkiaSharp iOS Certificate.p12'
-            - task: InstallAppleCertificate@2
-              inputs:
-                certSecureFile: 'SkiaSharp Mac Certificate.p12'
-            - task: InstallAppleProvisioningProfile@1
-              inputs:
-                provProfileSecureFile: 'SkiaSharp iOS Provisioning.mobileprovision'
-            - task: InstallAppleProvisioningProfile@1
-              inputs:
-                provProfileSecureFile: 'SkiaSharp Mac Provisioning.provisionprofile'
-            - task: InstallAppleProvisioningProfile@1
-              inputs:
-                provProfileSecureFile: 'SkiaSharp tvOS Provisioning.mobileprovision'
-            - pwsh: |
-                New-Item '.\output\nugets\' -Type Directory -Force | Out-Null
-                Get-ChildItem '.\output\*.nupkg' | Move-Item -Destination '.\output\nugets\'
-              displayName: Copy the *.nupkgs into the correct folder for the samples
+
       - template: azure-templates-bootstrapper.yml # Build Samples (Linux)
         parameters:
           name: samples_linux
