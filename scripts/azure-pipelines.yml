@@ -3,7 +3,7 @@ trigger:
   - refs/tags/*
 
 variables:
-  SKIASHARP_VERSION: 1.68.1.1
+  SKIASHARP_VERSION: 1.68.1.1-mrcs
   FEATURE_NAME_PREFIX: 'feature/'
   VERBOSITY: normal
   GIT_SHA: $(Build.SourceVersion)
@@ -25,13 +25,6 @@ variables:
 
   # # To speed up builds when debugging DevOps
   # DOWNLOAD_EXTERNALS: ''
-
-resources:
-  repositories:
-    - repository: xamarin-templates
-      type: github
-      name: xamarin/yaml-templates
-      endpoint: xamarin
 
 stages:
   - stage: prepare
@@ -425,35 +418,6 @@ stages:
                 New-Item '.\output\nugets\' -Type Directory -Force | Out-Null
                 Get-ChildItem '.\output\*.nupkg' | Move-Item -Destination '.\output\nugets\'
               displayName: Copy the *.nupkgs into the correct folder for the samples
-      - template: azure-templates-bootstrapper.yml # Build Samples (macOS)
-        parameters:
-          name: samples_macos
-          displayName: Build Samples (macOS)
-          vmImage: $(VM_IMAGE_MAC)
-          target: samples
-          shouldPublish: false
-          requiredArtifacts:
-            - nuget
-          preBuildSteps:
-            - task: InstallAppleCertificate@2
-              inputs:
-                certSecureFile: 'SkiaSharp iOS Certificate.p12'
-            - task: InstallAppleCertificate@2
-              inputs:
-                certSecureFile: 'SkiaSharp Mac Certificate.p12'
-            - task: InstallAppleProvisioningProfile@1
-              inputs:
-                provProfileSecureFile: 'SkiaSharp iOS Provisioning.mobileprovision'
-            - task: InstallAppleProvisioningProfile@1
-              inputs:
-                provProfileSecureFile: 'SkiaSharp Mac Provisioning.provisionprofile'
-            - task: InstallAppleProvisioningProfile@1
-              inputs:
-                provProfileSecureFile: 'SkiaSharp tvOS Provisioning.mobileprovision'
-            - pwsh: |
-                New-Item '.\output\nugets\' -Type Directory -Force | Out-Null
-                Get-ChildItem '.\output\*.nupkg' | Move-Item -Destination '.\output\nugets\'
-              displayName: Copy the *.nupkgs into the correct folder for the samples
       - template: azure-templates-bootstrapper.yml # Build Samples (Linux)
         parameters:
           name: samples_linux
@@ -476,76 +440,3 @@ stages:
               inputs:
                 artifactName: samples
                 pathToPublish: 'output'
-
-  - ${{ if eq(variables['System.TeamProject'], 'devdiv') }}:
-    - stage: checks
-      displayName: Run Code Checks
-      dependsOn: prepare
-      jobs:
-        - template: azure-templates-bootstrapper.yml # Run Code Checks
-          parameters:
-            name: native_checks_windows
-            displayName: Run Code Checks
-            # condition: and(always(), eq('refs/heads/master', variables['Build.SourceBranch']))
-            vmImage: $(VM_IMAGE_WINDOWS)
-            target: git-sync-deps
-            shouldPublish: false
-            postBuildSteps:
-              - task: CredScan@2
-                displayName: Analyze source for credentials
-                condition: always()
-                inputs:
-                  toolMajorVersion: 'V2'
-              - task: PoliCheck@1
-                displayName: Run PoliCheck
-                condition: always()
-                inputs:
-                  inputType: 'Basic'
-                  targetType: 'F'
-              - task: SdtReport@1
-                displayName: Create security analysis report
-                condition: always()
-                inputs:
-                  AllTools: false
-                  APIScan: false
-                  BinSkim: false
-                  CodesignValidation: false
-                  CredScan: true
-                  FortifySCA: false
-                  FxCop: false
-                  ModernCop: false
-                  MSRD: false
-                  PoliCheck: true
-                  RoslynAnalyzers: false
-                  SDLNativeRules: false
-                  Semmle: false
-                  TSLint: false
-                  ToolLogsNotFoundAction: 'Standard'
-              - task: PublishSecurityAnalysisLogs@3
-                displayName: Publish security analysis logs
-                condition: always()
-              - task: TSAUpload@1
-                displayName: Publish TSA logs
-                condition: always()
-                inputs:
-                  tsaVersion: 'TsaV2'
-                  codebase: 'NewOrUpdate'
-                  tsaEnvironment: 'PROD'
-                  codeBaseName: 'SkiaSharp_master'
-                  notificationAlias: 'xamacomd@microsoft.com'
-                  notifyAlwaysV2: false
-                  instanceUrlForTsaV2: 'DEVDIV'
-                  projectNameDEVDIV: 'DevDiv'
-                  areaPath: 'DevDiv\Xamarin Tools and SDKs\Components'
-                  iterationPath: 'DevDiv\OneVS'
-                  uploadAPIScan: false
-                  uploadBinSkim: false
-                  uploadCredScan: true
-                  uploadFortifySCA: false
-                  uploadFxCop: false
-                  uploadModernCop: false
-                  uploadPoliCheck: true
-                  uploadPREfast: false
-                  uploadRoslyn: false
-                  uploadTSLint: false
-                  uploadAsync: true
