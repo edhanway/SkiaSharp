@@ -140,6 +140,7 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=x86
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Android|x64 (macOS)
         parameters:
           name: native_android_x64_macos
@@ -147,6 +148,7 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=x64
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Android|arm (macOS)
         parameters:
           name: native_android_arm_macos
@@ -154,6 +156,7 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=arm
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Android|arm64 (macOS)
         parameters:
           name: native_android_arm64_macos
@@ -161,18 +164,21 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=arm64
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native iOS (macOS)
         parameters:
           name: native_ios_macos
           displayName: Build Native iOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-ios
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native macOS (macOS)
         parameters:
           name: native_macos_macos
           displayName: Build Native macOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-macos
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Tizen (macOS)
         parameters:
           name: native_tizen_macos
@@ -186,12 +192,14 @@ stages:
           displayName: Build Native tvOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-tvos
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native watchOS (macOS)
         parameters:
           name: native_watchos_macos
           displayName: Build Native watchOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-watchos
+          condition: false # MRCS - minimize build
       # NATIVE JOBS - LINUX
       - template: azure-templates-bootstrapper.yml # Build Native Linux (Linux)
         parameters:
@@ -201,6 +209,7 @@ stages:
           docker: scripts/Docker/ubuntu16/amd64
           target: externals-linux
           additionalArgs: --buildarch=x64
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Linux [No Dependencies] (Linux)
         parameters:
           name: native_linux_nodependencies_linux
@@ -209,6 +218,7 @@ stages:
           docker: scripts/Docker/ubuntu16/amd64
           target: externals-linuxnodeps
           additionalArgs: --buildarch=x64
+          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Tizen (Linux)
         parameters:
           name: native_tizen_linux
@@ -216,6 +226,7 @@ stages:
           vmImage: $(VM_IMAGE_LINUX)
           packages: $(TIZEN_LINUX_PACKAGES)
           target: externals-tizen
+          condition: false # MRCS - minimize build
 
   - stage: managed
     displayName: Build Managed
@@ -234,7 +245,7 @@ stages:
             - native_android_arm_windows
             - native_android_arm64_windows
             # - native_tizen_windows
-            - native_tizen_linux
+            # - native_tizen_linux MRCS - minimize build
             - native_uwp_x86_windows
             - native_uwp_x64_windows
             - native_uwp_arm_windows
@@ -249,6 +260,7 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: libs
           additionalArgs: --exclusive
+          condition: false # MRCS - minimize build
           requiredArtifacts:
             - native_android_x86_macos
             - native_android_x64_macos
@@ -268,6 +280,7 @@ stages:
           packages: $(MANAGED_LINUX_PACKAGES)
           target: libs
           additionalArgs: --exclusive
+          condition: false # MRCS - minimize build
           requiredArtifacts:
             - native_linux_linux
             - native_linux_nodependencies_linux
@@ -352,6 +365,7 @@ stages:
           target: tests
           additionalArgs: --skipExternals="all"
           shouldPublish: false
+          condition: false # MRCS - minimize build
           requiredArtifacts:
             - native_macos_macos
           postBuildSteps:
@@ -379,6 +393,7 @@ stages:
           target: tests
           additionalArgs: --skipExternals="all"
           shouldPublish: false
+          condition: false # MRCS - minimize build
           requiredArtifacts:
             - native_linux_linux
             - native_linux_nodependencies_linux
@@ -425,6 +440,7 @@ stages:
           vmImage: $(VM_IMAGE_LINUX)
           packages: $(MANAGED_LINUX_PACKAGES)
           target: samples
+          condition: false # MRCS - minimize build
           shouldPublish: false
           requiredArtifacts:
             - nuget
