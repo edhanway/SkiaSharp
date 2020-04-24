@@ -209,7 +209,6 @@ stages:
           docker: scripts/Docker/ubuntu16/amd64
           target: externals-linux
           additionalArgs: --buildarch=x64
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Linux [No Dependencies] (Linux)
         parameters:
           name: native_linux_nodependencies_linux
@@ -218,7 +217,6 @@ stages:
           docker: scripts/Docker/ubuntu16/amd64
           target: externals-linuxnodeps
           additionalArgs: --buildarch=x64
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Tizen (Linux)
         parameters:
           name: native_tizen_linux
@@ -280,11 +278,9 @@ stages:
           packages: $(MANAGED_LINUX_PACKAGES)
           target: libs
           additionalArgs: --exclusive
-          condition: false # MRCS - minimize build
           requiredArtifacts:
             - native_linux_linux
             - native_linux_nodependencies_linux
-            - native_tizen_linux
 
   - stage: package
     displayName: Package NuGets
