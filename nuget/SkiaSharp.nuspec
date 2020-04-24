@@ -55,8 +55,8 @@ Please visit https://go.microsoft.com/fwlink/?linkid=868517 to view the release 
       <group targetFramework="uap10.0">
         <dependency id="System.Memory" version="4.5.3" />
       </group>
-      <group targetFramework="tizen40">
-        <dependency id="System.Memory" version="4.5.3" />
+      <!--MRCS min build removed: <group targetFramework="tizen40">
+        <dependency id="System.Memory" version="4.5.3" /> -->
       </group>
     </dependencies>
 
@@ -80,13 +80,13 @@ Please visit https://go.microsoft.com/fwlink/?linkid=868517 to view the release 
     <file platform="macos" src="lib/Xamarin.Mac20/SkiaSharp.xml" />
     <file platform="windows" src="lib/uap10.0/SkiaSharp.dll" />
     <file platform="windows" src="lib/uap10.0/SkiaSharp.xml" />
-    <file src="lib/tizen40/SkiaSharp.dll" />
-    <file src="lib/tizen40/SkiaSharp.xml" />
+    <!-- MRCS min build removed: <file src="lib/tizen40/SkiaSharp.dll" />
+    <file src="lib/tizen40/SkiaSharp.xml" /> -->
 
     <!-- the build bits -->
     <file src="build/net45/SkiaSharp.targets" />
     <file src="build/net45/SkiaSharp.targets" target="buildTransitive/net45/SkiaSharp.targets" />
-    <file src="build/tizen40/SkiaSharp.targets" />
+    <!-- MRCS min build removed: <file src="build/tizen40/SkiaSharp.targets" /> -->
 
     <!-- libSkiaSharp.dll and other native files -->
     <file platform="windows" src="runtimes/win-x64/native/libSkiaSharp.dll" />
@@ -101,8 +101,8 @@ Please visit https://go.microsoft.com/fwlink/?linkid=868517 to view the release 
     <file platform="windows" src="runtimes/win10-x64/nativeassets/uap10.0/libEGL.dll" />
     <file platform="windows" src="runtimes/win10-x86/nativeassets/uap10.0/libEGL.dll" />
     <file platform="windows" src="runtimes/win10-arm/nativeassets/uap10.0/libEGL.dll" />
-    <file src="runtimes/tizen-armel/native/libSkiaSharp.so" />
-    <file src="runtimes/tizen-x86/native/libSkiaSharp.so" />
+    <!-- MRCS min build removed: <file src="runtimes/tizen-armel/native/libSkiaSharp.so" />
+    <file src="runtimes/tizen-x86/native/libSkiaSharp.so" /> -->
 
     <!-- Workbooks integration -->
     <file src="xamarin.interactive/SkiaSharp.Workbooks.dll" />
