@@ -24,7 +24,7 @@ variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 
   # # To speed up builds when debugging DevOps
-  DOWNLOAD_EXTERNALS: ''
+  # DOWNLOAD_EXTERNALS: ''
 
 stages:
   - stage: prepare
@@ -140,7 +140,6 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=x86
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Android|x64 (macOS)
         parameters:
           name: native_android_x64_macos
@@ -148,7 +147,6 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=x64
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Android|arm (macOS)
         parameters:
           name: native_android_arm_macos
@@ -156,7 +154,6 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=arm
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Android|arm64 (macOS)
         parameters:
           name: native_android_arm64_macos
@@ -164,21 +161,18 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: externals-android
           additionalArgs: --buildarch=arm64
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native iOS (macOS)
         parameters:
           name: native_ios_macos
           displayName: Build Native iOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-ios
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native macOS (macOS)
         parameters:
           name: native_macos_macos
           displayName: Build Native macOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-macos
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native Tizen (macOS)
         parameters:
           name: native_tizen_macos
@@ -192,14 +186,12 @@ stages:
           displayName: Build Native tvOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-tvos
-          condition: false # MRCS - minimize build
       - template: azure-templates-bootstrapper.yml # Build Native watchOS (macOS)
         parameters:
           name: native_watchos_macos
           displayName: Build Native watchOS (macOS)
           vmImage: $(VM_IMAGE_MAC)
           target: externals-watchos
-          condition: false # MRCS - minimize build
       # NATIVE JOBS - LINUX
       - template: azure-templates-bootstrapper.yml # Build Native Linux (Linux)
         parameters:
@@ -258,7 +250,6 @@ stages:
           vmImage: $(VM_IMAGE_MAC)
           target: libs
           additionalArgs: --exclusive
-          condition: false # MRCS - minimize build
           requiredArtifacts:
             - native_android_x86_macos
             - native_android_x64_macos
