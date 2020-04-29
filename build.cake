@@ -217,6 +217,7 @@ Task ("samples")
         { "uwp", isWin },
         { "watchos", isMac },
         { "wpf", isWin },
+        { "tizen", false },
     };
 
     var platformMatrix = new Dictionary<string, string> {
