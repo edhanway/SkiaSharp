@@ -286,6 +286,8 @@ stages:
           additionalArgs: --packall=true --exclusive
           shouldPublish: false
           requiredArtifacts:
+            - managed_linux
+            - managed_macos
             - managed_windows
           postBuildSteps:
             - task: PublishBuildArtifacts@1
