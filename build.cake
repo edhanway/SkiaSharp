@@ -218,6 +218,7 @@ Task ("samples")
         { "watchos", isMac },
         { "wpf", isWin },
         { "tizen", false },
+        { "elmsharp", false },
     };
 
     var platformMatrix = new Dictionary<string, string> {
